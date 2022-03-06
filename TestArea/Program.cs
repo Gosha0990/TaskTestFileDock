@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 
 namespace TestArea
 {
@@ -27,7 +28,16 @@ namespace TestArea
                         хлопья кукурузные
                         мюсли";
             Console.WriteLine(str);
-           
+            var regex = new Regex(".+?(?=Состав продукта:|Тип продукта:|Похожие продукты:|$)", RegexOptions.Singleline);
+            var matches = regex.Matches(str);
+            int count = 0;
+            foreach (Match match in matches)
+            {
+                Console.WriteLine("Часть" + count + ":");
+                Console.WriteLine(match.Value);
+                count++;
+            }
+            Console.ReadLine();
         }
     }
 }
