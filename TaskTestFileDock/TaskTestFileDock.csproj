@@ -9,6 +9,9 @@
     <None Update="File\AAPL-IQFeed-SMART-Stocks-Minute-Trade.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="File\TextFile1.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
