@@ -12,19 +12,17 @@ namespace TaskTestFileDock
         public string ParseFile(string nameFile)
         {
             string path = Path.GetFullPath(nameFile);
-            string resultStr = null;
-            if (File.Exists(path))
+            string srt = null;
+
+            using (StreamReader sr = new StreamReader(path))
             {
-                using (StreamReader sr = new StreamReader(path))
+                string s;
+                while ((s = sr.ReadLine()) != null)
                 {
-                    string s;
-                    while ((s = sr.ReadLine()) != null)
-                    {
-                        resultStr +=s;
-                    }
+                    
                 }
             }
-            return resultStr;
+            return srt;
         }
 
     }

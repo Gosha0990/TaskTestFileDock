@@ -26,60 +26,38 @@ namespace TestArea
                                     AAPL,NASDAQ,03.01.2020,08:07:00,296.000,296.000,295.980,295.980,1807
                                     AAPL,NASDAQ,03.01.2020,08:07:00,296.000,296.000,295.980,295.980,1807";
             Console.WriteLine(str);
-            string pattern = @"(\d{2}\.\d{2}\.\d{4}),(\d{2}:\d{2}:\d{2}),(\d{3}\.\d{3}),(\d{3}\.\d{3}),(\d{3}\.\d{3})";
-            var matches = Regex.Matches(str, pattern, RegexOptions.Multiline);
-            var listLoc = new List<Data>() { }; 
-            
-            foreach(Match match in matches)
-            {                
-                var date = new Data();
-                date.Date = match.Groups[1].Value.ToString();
-                date.H = match.Groups[4].Value.ToString();
-                date.L = match.Groups[5].Value.ToString();
-                listLoc.Add(date);
-            }
 
-            for (int i = 0; i < listLoc.Count; i++)
-            {
-                if (i >= listLoc.Count)
-                {
-                    break;
-                }
-                // удаляется часть списка которая нам не нужна при изменение даты
-                //Необходимо добавить сортировку и запись дапустим в ноый список 
-                if (listLoc[i].Date != listLoc[i + 1].Date)
-                {
-
-                    listLoc.RemoveRange(0,i+1);
-                    i = 1;
-                }
-                Console.WriteLine(listLoc[i].Date.ToString());
-                
-            }
-            // проблемма с работой относительного пути
+            // Через Using проходим по строчно по нужному файлу и внутри 
+            // Используя регулярные выражения отслеживае изменение даты
+            // Сюда необходимо добавить сохранение в List другие значения из файла
+            // Далее их отсортировать и сохранить в отдельный файл с названием и датой
             string path = Path.GetFullPath("TextFile1.txt");
-            //string di = @"TaskTestFileDock\TaskTestFileDock\File\AAPL-IQFeed-SMART-Stocks-Minute-Trade.txt";
-            if (File.Exists(path))
+            using (StreamReader sw = new StreamReader(path))
             {
-                using (StreamReader sr = new StreamReader(path))
+                string pat = @"(\d{2}\.\d{2}\.\d{4}),(\d{2}:\d{2}:\d{2}),(\d{3}\.\d{3}),(\d{3}\.\d{3}),(\d{3}\.\d{3})";
+                string s;
+                string dateCurrent = null;
+                string dateLast = null;
+                while((s=sw.ReadLine())!=null)
                 {
-                    string s;
-                    while ((s = sr.ReadLine()) != null)
+
+                    var math = Regex.Matches(s, pat, RegexOptions.Multiline);
+                    foreach (Match match in math)
+                        dateCurrent = match.Groups[1].Value.ToString();
+                    Console.WriteLine(dateCurrent);
+                    if(dateLast == null)
                     {
-                        Console.WriteLine(s);
+                        dateLast = dateCurrent;
                     }
+                    else
+                    {
+                        if (dateCurrent != dateLast)
+                            Console.WriteLine("Новая дата");
+                    }
+
                 }
             }
             Console.ReadLine();            
-        }
-        public static string ParseFile(string directory)
-        {
-            DirectoryInfo di = new DirectoryInfo(directory);
-            foreach (var f in di.GetFiles("*.txt"))
-            { 
-                return f.Name;
-            }
-            return null;
         }
     }
 }
