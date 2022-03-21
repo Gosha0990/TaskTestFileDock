@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.IO;
+using System.Text;
 
 namespace TestArea
 {   
@@ -32,6 +33,7 @@ namespace TestArea
             // Сюда необходимо добавить сохранение в List другие значения из файла
             // Далее их отсортировать и сохранить в отдельный файл с названием и дато
             string path = Path.GetFullPath("TextFile1.txt");
+            //Тест парсинг файла используя регулярные выражения
             using (StreamReader sw = new StreamReader(path))
             {
                 string pat = @"(\d{2}\.\d{2}\.\d{4}),(\d{2}:\d{2}:\d{2}),(\d{3}\.\d{3}),(\d{3}\.\d{3}),(\d{3}\.\d{3})";
@@ -57,7 +59,18 @@ namespace TestArea
 
                 }
             }
-            Console.ReadLine();            
+            //Создание файла и запись тексто в файл
+            string nameFile = "newFile.txt";
+            string text = "Hello world";
+            using (FileStream sr = new FileStream(nameFile, FileMode.OpenOrCreate))
+            {
+                Console.WriteLine("Файл создан");
+                byte[] input = Encoding.Default.GetBytes(text);
+                sr.Write(input, 0, input.Length);
+                Console.WriteLine("Текст записан");
+
+            }
+                Console.ReadLine();            
         }
     }
 }
