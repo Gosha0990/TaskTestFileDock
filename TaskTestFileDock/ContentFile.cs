@@ -12,7 +12,7 @@ namespace TaskTestFileDock
     {
         private string _patterRegex;
         private string _pathFile;
-        private string resultString = "null";
+        private string resultString = null;
         public ContentFile(string pathFile)
         {
             _patterRegex = @"(\d{2}\.\d{2}\.\d{4}),(\d{2}:\d{2}:\d{2}),(\d{3}\.\d{3}),(\d{3}\.\d{3}),(\d{3}\.\d{3})";
@@ -26,24 +26,30 @@ namespace TaskTestFileDock
                 string currentDate = null;
                 string nextDate = null;
                 string s;
+                var _number = new List<string>() { };
                 while ((s = sr.ReadLine()) != null)
                 {
                     var math = Regex.Matches(s, _patterRegex, RegexOptions.IgnoreCase);
                     foreach (Match m in math)
-                        currentDate = m.Groups[1].Value.ToString();
-                    
-                    if(nextDate == null)
-                        nextDate = currentDate;
-                    else
                     {
-                        if (nextDate != currentDate)
-                            return "new date";
+                        currentDate = m.Groups[1].Value.ToString();
+
+                        if (nextDate == null)
+                            nextDate = currentDate;
                         else
-                            return "missing new date";
+                        {
+                            if (nextDate == currentDate)
+                                return "new date";
+                            else
+                                _number.Add(m.Groups[4].Value.ToString());
+                        }
                     }
+                    foreach (var n in _number)
+                        resultString += " " + n;
                 }
-                return currentDate;
-            }            
+                return resultString;
+            }
+            
         }
         public string GetResultString()
         {
