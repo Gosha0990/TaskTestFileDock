@@ -20,7 +20,8 @@ namespace TaskTestFileDock
         }
         public string ParseFileDate()
         {
-            var control = new ControlFile();       
+            var dataFile = new DataFile();
+            var controlFile = new ControlFile();
             string path = Path.GetFullPath(_pathFile);           
             using (StreamReader sr = new StreamReader(path))
             {
@@ -45,10 +46,10 @@ namespace TaskTestFileDock
                                 High +="\n" + m.Groups[4].Value.ToString();
                             else
                             {
-                                var hRes = control.SortDate(High);
-                                var min = control.GetMin(hRes);
-                                var max = control.GetMax(hRes);
-                                control.CreationFile(PreviousDate + ".txt", min + "\n" + max);
+                                var hRes = dataFile.SortData(High);
+                                var min = dataFile.GetMinList(hRes);
+                                var max = dataFile.GetMaxList(hRes);
+                                controlFile.CreationFile(PreviousDate + ".txt", min + "\n" + max);
                                 High = null;
                                 PreviousDate = currentDate;
                             }                            
