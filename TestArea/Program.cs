@@ -61,8 +61,11 @@ namespace TestArea
             }
             //Создание файла и запись тексто в файл
             string nameFile = "newFile.txt";
+            string nameFolder = "ResData1";
+            var drInfo = new DirectoryInfo(nameFolder);
+            drInfo.Create();
             string text = "Hello world";
-            using (FileStream sr = new FileStream(nameFile, FileMode.OpenOrCreate))
+            using (FileStream sr = new FileStream(nameFolder +"\\"+ nameFile, FileMode.OpenOrCreate))
             {
                 Console.WriteLine("Файл создан");
                 byte[] input = Encoding.Default.GetBytes(text);
@@ -70,7 +73,7 @@ namespace TestArea
                 Console.WriteLine("Текст записан");
 
             }
-                Console.ReadLine();            
+                Console.ReadLine();
         }
     }
 }
