@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.IO;
+﻿using System.IO;
 using System.Text.RegularExpressions;
 
 namespace TaskTestFileDock
@@ -49,7 +44,7 @@ namespace TaskTestFileDock
                                 var hRes = dataFile.SortData(High);
                                 var min = dataFile.GetMinList(hRes);
                                 var max = dataFile.GetMaxList(hRes);
-                                controlFile.CreationFile(PreviousDate + ".txt", min + "\n" + max);
+                                controlFile.CreationFile(PreviousDate + ".txt","Task_1", min + "\n" + max);
                                 High = null;
                                 PreviousDate = currentDate;
                             }                            
