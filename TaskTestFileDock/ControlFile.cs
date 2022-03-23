@@ -5,6 +5,7 @@ namespace TaskTestFileDock
 {
     internal class ControlFile
     {
+        // Создание Файла
         public void CreationFile(string nameFile,string nameFolder, string content)
         {
             nameFolder = CreationFolder(nameFolder);
@@ -14,6 +15,7 @@ namespace TaskTestFileDock
                 fileStream.Write(buffer, 0, buffer.Length);
             }
         }
+        // Создание папки
         private string CreationFolder(string nameFolder)
         {
             var folder = new DirectoryInfo(nameFolder);

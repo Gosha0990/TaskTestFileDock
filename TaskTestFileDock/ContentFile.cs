@@ -7,7 +7,7 @@ namespace TaskTestFileDock
     {
         private string _patterRegex;
         private string _pathFile;
-        public string High { get; set; }
+        private string dataHighLow = "High \t low";
         public ContentFile(string pathFile)
         {
             _patterRegex = @"(\d{2}\.\d{2}\.\d{4}),(\d{2}:\d{2}:\d{2}),(\d{3}\.\d{3}),(\d{3}\.\d{3}),(\d{3}\.\d{3})";
@@ -17,7 +17,7 @@ namespace TaskTestFileDock
         {
             var dataFile = new DataFile();
             var controlFile = new ControlFile();
-            string path = Path.GetFullPath(_pathFile);           
+            string path = Path.GetFullPath(_pathFile);
             using (StreamReader sr = new StreamReader(path))
             {
                 string currentDate = null;
@@ -33,19 +33,18 @@ namespace TaskTestFileDock
                         if (PreviousDate == null)
                         {
                             PreviousDate = currentDate;
-                            High += "\n" + m.Groups[4].Value.ToString();
+                            dataHighLow += "\n" + m.Groups[4].Value.ToString() + "  " + m.Groups[5].Value.ToString();
+                                            
                         }                           
                         else
                         {
                             if (PreviousDate == currentDate)
-                                High +="\n" + m.Groups[4].Value.ToString();
+                                dataHighLow += "\n" + m.Groups[4].Value.ToString() + "  " + m.Groups[5].Value.ToString();
                             else
                             {
-                                var hRes = dataFile.SortData(High);
-                                var min = dataFile.GetMinList(hRes);
-                                var max = dataFile.GetMaxList(hRes);
-                                controlFile.CreationFile(PreviousDate + ".txt","Task_1", min + "\n" + max);
-                                High = null;
+                                
+                                controlFile.CreationFile(PreviousDate + ".txt","Task_1", dataHighLow);
+                                dataHighLow = "High \t low";
                                 PreviousDate = currentDate;
                             }                            
                         }
